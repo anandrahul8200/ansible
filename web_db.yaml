@@ -1,0 +1,39 @@
+---
+- name: Setup Web Server
+  hosts: websrvgrp
+  become: yes
+  tasks:
+   - name: Installing HTTPD Package
+     yum:
+      name: httpd
+      state: present
+   
+   - name: Copy index.html file  
+     copy:
+      src: index.html
+      dest: /var/www/html/index.html 
+  
+   - name: Starting HTTPD Service
+     service:
+      name: httpd
+      state: started 
+      enabled: yes 
+
+
+- name: Setup DB Server
+  hosts: dbsrvgrp
+  become: yes
+  tasks:
+   - name:  Installing MariaDB
+     yum:
+      name: mariadb-server
+      state: present
+   - name: Starting DB Service
+     service:
+      name: mariadb
+      state: started
+      enabled: yes
+
+
+
+
